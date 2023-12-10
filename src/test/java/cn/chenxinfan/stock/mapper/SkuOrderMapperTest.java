@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SkuOrderMapperTest extends BaseTest {
 
     @Autowired
-    private TransactionCodeDaoMapper skuOrderMapper;
+    private TransactionCode01DaoMapper skuOrderMapper;
 
     @Test
     public void testInsert() {

@@ -2,9 +2,9 @@ package cn.chenxinfan.stock.manager.impl;
 
 import cn.chenxinfan.stock.domain.bo.StockBo;
 import cn.chenxinfan.stock.domain.dao.TransactionCodeDao;
-import cn.chenxinfan.stock.manager.StockManager;
-import cn.chenxinfan.stock.mapper.SkuStockDaoMapper;
-import cn.chenxinfan.stock.mapper.TransactionCodeDaoMapper;
+import cn.chenxinfan.stock.manager.Stock01Manager;
+import cn.chenxinfan.stock.mapper.SkuStock01DaoMapper;
+import cn.chenxinfan.stock.mapper.TransactionCode01DaoMapper;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Service
-public class StockManagerImpl implements StockManager {
+public class Stock01ManagerImpl implements Stock01Manager {
 
     @Autowired
-    private TransactionCodeDaoMapper skuOrderMapper;
+    private TransactionCode01DaoMapper skuOrderMapper;
 
     @Autowired
-    private SkuStockDaoMapper skuStockMapper;
+    private SkuStock01DaoMapper skuStockMapper;
 
     @Override
     @Transactional

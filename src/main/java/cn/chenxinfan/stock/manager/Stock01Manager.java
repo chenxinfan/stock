@@ -7,6 +7,6 @@ import cn.chenxinfan.stock.domain.bo.StockBo;
  * @site www.chenxinfan.cn
  * @date 2023/12/6 22:32
  */
-public interface StockManager {
+public interface Stock01Manager {
     void deductStock(StockBo stockBo);
 }

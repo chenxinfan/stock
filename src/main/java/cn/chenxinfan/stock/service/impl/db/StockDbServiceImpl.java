@@ -1,10 +1,9 @@
 package cn.chenxinfan.stock.service.impl.db;
 
 import cn.chenxinfan.stock.domain.bo.StockBo;
-import cn.chenxinfan.stock.domain.dao.SkuStockDao;
 import cn.chenxinfan.stock.enums.StockCodeEnum;
-import cn.chenxinfan.stock.manager.StockManager;
-import cn.chenxinfan.stock.mapper.SkuStockDaoMapper;
+import cn.chenxinfan.stock.manager.Stock01Manager;
+import cn.chenxinfan.stock.mapper.SkuStock01DaoMapper;
 import cn.chenxinfan.stock.result.StockResult;
 import cn.chenxinfan.stock.service.StockService;
 import com.alibaba.fastjson.JSONObject;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 方案一：数据库：使用数据库事务保证数据争取性，准确性最高，并发量高时性能较差
+ * 单库单表
  *
  * @author chenxinfan
  * @site www.chenxinfan.cn
@@ -25,10 +25,10 @@ import org.springframework.stereotype.Service;
 public class StockDbServiceImpl implements StockService {
 
     @Autowired
-    private SkuStockDaoMapper skuStockMapper;
+    private SkuStock01DaoMapper skuStockMapper;
 
     @Autowired
-    private StockManager stockManager;
+    private Stock01Manager stockManager;
 
     @Override
     public StockResult deductStock(String transactionCode, String skuId, Integer deductStockNum) {

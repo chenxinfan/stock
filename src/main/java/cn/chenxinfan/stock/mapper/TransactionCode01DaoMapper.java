@@ -2,7 +2,7 @@ package cn.chenxinfan.stock.mapper;
 
 import cn.chenxinfan.stock.domain.dao.TransactionCodeDao;
 
-public interface TransactionCodeDaoMapper {
+public interface TransactionCode01DaoMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(TransactionCodeDao record);

@@ -3,7 +3,7 @@ package cn.chenxinfan.stock.mapper;
 import cn.chenxinfan.stock.domain.dao.SkuStockDao;
 import org.apache.ibatis.annotations.Param;
 
-public interface SkuStockDaoMapper {
+public interface SkuStock01DaoMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(SkuStockDao record);
