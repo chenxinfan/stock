@@ -1,9 +1,10 @@
 package cn.chenxinfan.stock.service.impl.db;
 
 import cn.chenxinfan.stock.domain.bo.StockBo;
+import cn.chenxinfan.stock.domain.dao.SkuStockDao;
 import cn.chenxinfan.stock.enums.StockCodeEnum;
 import cn.chenxinfan.stock.manager.StockManager;
-import cn.chenxinfan.stock.mapper.SkuStockMapper;
+import cn.chenxinfan.stock.mapper.SkuStockDaoMapper;
 import cn.chenxinfan.stock.result.StockResult;
 import cn.chenxinfan.stock.service.StockService;
 import com.alibaba.fastjson.JSONObject;
@@ -24,19 +25,19 @@ import org.springframework.stereotype.Service;
 public class StockDbServiceImpl implements StockService {
 
     @Autowired
-    private SkuStockMapper skuStockMapper;
+    private SkuStockDaoMapper skuStockMapper;
 
     @Autowired
     private StockManager stockManager;
 
     @Override
-    public StockResult deductStock(Long orderId, String skuId, Integer deductStockNum) {
+    public StockResult deductStock(String transactionCode, String skuId, Integer deductStockNum) {
         //todo 1，查询库存
 
 
         //2，扣减库存
         StockBo stockBo = new StockBo();
-        stockBo.setOrderId(orderId);
+        stockBo.setTransactionCode(transactionCode);
         stockBo.setSkuId(skuId);
         stockBo.setDeductStockNum(deductStockNum);
         try {

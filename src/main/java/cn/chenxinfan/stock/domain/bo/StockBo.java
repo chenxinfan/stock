@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class StockBo {
 
-    private Long orderId;
+    private String transactionCode;
 
     private String skuId;
 

@@ -1,10 +1,10 @@
 package cn.chenxinfan.stock.manager.impl;
 
 import cn.chenxinfan.stock.domain.bo.StockBo;
-import cn.chenxinfan.stock.domain.dao.SkuOrder;
+import cn.chenxinfan.stock.domain.dao.TransactionCodeDao;
 import cn.chenxinfan.stock.manager.StockManager;
-import cn.chenxinfan.stock.mapper.SkuOrderMapper;
-import cn.chenxinfan.stock.mapper.SkuStockMapper;
+import cn.chenxinfan.stock.mapper.SkuStockDaoMapper;
+import cn.chenxinfan.stock.mapper.TransactionCodeDaoMapper;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +21,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class StockManagerImpl implements StockManager {
 
     @Autowired
-    private SkuOrderMapper skuOrderMapper;
+    private TransactionCodeDaoMapper skuOrderMapper;
 
     @Autowired
-    private SkuStockMapper skuStockMapper;
+    private SkuStockDaoMapper skuStockMapper;
 
     @Override
     @Transactional
     public void deductStock(StockBo stockBo) {
         //1，扣减库存防重码
-        SkuOrder skuOrder = new SkuOrder();
-        skuOrder.setOrderId(stockBo.getOrderId());
+        TransactionCodeDao skuOrder = new TransactionCodeDao();
+        skuOrder.setTransactionCode(stockBo.getTransactionCode());
         skuOrder.setSkuId(stockBo.getSkuId());
-        if (skuOrderMapper.insert(skuOrder) != 1) {
+        if (skuOrderMapper.insertSelective(skuOrder) != 1) {
             log.error("skuOrderMapper.insert error! skuOrder:{}", JSONObject.toJSONString(skuOrder));
             throw new RuntimeException("skuOrderMapper.insert error!");
         }

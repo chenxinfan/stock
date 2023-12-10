@@ -9,5 +9,5 @@ import cn.chenxinfan.stock.result.StockResult;
  */
 public interface StockService {
 
-    StockResult deductStock(Long orderId, String skuId, Integer deductStockNum);
+    StockResult deductStock(String transactionCode, String skuId, Integer deductStockNum);
 }

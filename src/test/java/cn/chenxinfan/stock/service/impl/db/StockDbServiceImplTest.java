@@ -17,7 +17,7 @@ public class StockDbServiceImplTest extends BaseTest {
 
     @Test
     public void deductStock() {
-        StockResult stockResult = service.deductStock(1000L, "1", 10);
+        StockResult stockResult = service.deductStock("1000", "1", 10);
         System.out.println(stockResult);
     }
 }
