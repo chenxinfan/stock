@@ -7,7 +7,7 @@ import cn.chenxinfan.stock.datasource.util.DbTableIndexUtil;
  * @site www.chenxinfan.cn
  * @date 2023/12/10 16:15
  */
-public class BaseDao {
+public class BaseSplitDao {
 
     private String tableIndex;
 
