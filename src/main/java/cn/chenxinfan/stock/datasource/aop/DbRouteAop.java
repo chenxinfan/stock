@@ -1,6 +1,8 @@
 package cn.chenxinfan.stock.datasource.aop;
 
 import cn.chenxinfan.stock.datasource.annotation.DbSplitKey;
+import cn.chenxinfan.stock.datasource.domain.contants.DataSourceContants;
+import cn.chenxinfan.stock.datasource.util.DbTableIndexUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -52,33 +54,27 @@ public class DbRouteAop {
         }
 
         String splitKeyValue = getSplitkeyValue(argObjects, parameterAnnotations);
-        if (StringUtils.isBlank(splitKeyValue)) {
+        if (StringUtils.isBlank(splitKeyValue) || StringUtils.isBlank(splitKeyValue.trim())) {
             String errmsg = String.format("className:%s methodName:%s splitKeyValue is blank", clazzName, methodName);
             log.error(errmsg);
             throw new RuntimeException(errmsg);
         }
 
         log.info("DbRouteAop splitKeyValue:{}", splitKeyValue);
-//
-//        if (method.isAnnotationPresent(DbRoute.class)) {
-//            Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-//            for (Annotation[] annotationArray : parameterAnnotations) {
-//                System.out.println("asd");
-//            }
-//        }
 
-//        // 判断当前访问的方法是否存在指定注解
-//        if (method.isAnnotationPresent(AopDemoAnnotation.class)) {
-//            AopDemoAnnotation annotation = method.getAnnotation(AopDemoAnnotation.class);
-//
-//            // 获取注解标识值与注解描述
-//            String value = annotation.value();
-//            String desc = annotation.description();
-//
-//            // 执行目标方法
-//            Object proceed = jointPoint.proceed();
-//            System.out.println("打印方法是执行返回结果：" + proceed.toString());
-//        }
+        //分表tableIndex计算
+        Integer hashCode = splitKeyValue.toLowerCase().hashCode() & Integer.MAX_VALUE;
+        Integer tableIndex = hashCode % DataSourceContants.DATA_SOURCE_TABLE_LENGTH + 1;
+        String tableIndexStr = String.format("%02d", tableIndex);
+        //放入theahlocal中
+        DbTableIndexUtil.setTableIndex(tableIndexStr);
+
+        try {
+            //执行目标方法
+            Object proceed = jointPoint.proceed();
+        } finally {
+            DbTableIndexUtil.remove();
+        }
     }
 
     /**

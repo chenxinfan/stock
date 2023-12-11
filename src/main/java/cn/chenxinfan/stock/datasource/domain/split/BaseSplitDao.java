@@ -1,4 +1,4 @@
-package cn.chenxinfan.stock.datasource.domain;
+package cn.chenxinfan.stock.datasource.domain.split;
 
 import cn.chenxinfan.stock.datasource.util.DbTableIndexUtil;
 

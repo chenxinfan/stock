@@ -8,7 +8,7 @@ spring:
 
 
 mybatis:
-  mapper-locations: classpath*:mapper/*.xml;classpath*:mapper/split/*.xml;
+  mapper-locations: classpath*:mapper/*.xml,classpath*:mapper/split/*.xml;
   type-aliases-package: cn.chenxinfan.stock.domain.dao;
 
 

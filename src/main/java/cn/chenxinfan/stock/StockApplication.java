@@ -4,7 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan("cn.chenxinfan.stock.mapper")
+@MapperScan(basePackages = {"cn.chenxinfan.stock.mapper", "cn.chenxinfan.stock.split.mapper"})
 @SpringBootApplication
 public class StockApplication {
 
