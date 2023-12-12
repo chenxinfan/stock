@@ -1,31 +1,21 @@
 package cn.chenxinfan.stock.split.mapper;
 
-import cn.chenxinfan.stock.datasource.annotation.DbRoute;
-import cn.chenxinfan.stock.datasource.annotation.DbSplitKey;
-import cn.chenxinfan.stock.domain.dao.split.SkuStockSplitDao;
-import org.apache.ibatis.annotations.Param;
+import cn.chenxinfan.stock.domain.dao.split.SkuStockSplit;
 
 public interface SkuStockSplitDaoMapper {
 
-    @DbRoute
-    int deleteByPrimaryKey(@DbSplitKey String skuId, Integer id);
+    int deleteByPrimaryKey(Long id);
 
-    @DbRoute
-    int insert(@DbSplitKey(splitKey = "skuId") SkuStockSplitDao record);
+    Long insert(SkuStockSplit record);
 
-    @DbRoute
-    int insertSelective(@DbSplitKey(splitKey = "skuId") SkuStockSplitDao record);
+    Long insertSelective(SkuStockSplit record);
 
-    @DbRoute
-    SkuStockSplitDao selectByPrimaryKey(@DbSplitKey String skuId, Integer id);
+    SkuStockSplit selectByPrimaryKey(Long id);
 
-    @DbRoute
-    int updateByPrimaryKeySelective(@DbSplitKey(splitKey = "skuId") SkuStockSplitDao record);
+    int updateByPrimaryKeySelective(SkuStockSplit record);
 
-    @DbRoute
-    int updateByPrimaryKey(@DbSplitKey(splitKey = "skuId") SkuStockSplitDao record);
+    int updateByPrimaryKey(SkuStockSplit record);
 
-    @DbRoute
-    int deductStock(@DbSplitKey @Param("skuId") String skuId, @Param("deductStockNum") Integer deductStockNum);
+    int deductStock(String skuId,  Integer deductStockNum);
 
 }

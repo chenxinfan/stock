@@ -1,63 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.chenxinfan.stock.split.mapper.TransactionCodeSplitDaoMapper">
-  <resultMap id="BaseResultMap" type="cn.chenxinfan.stock.domain.dao.split.TransactionCodeSplitDao">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="transaction_code" jdbcType="VARCHAR" property="transactionCode" />
-    <result column="sku_id" jdbcType="VARCHAR" property="skuId" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, transaction_code, sku_id
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from transaction_code_${tableIndex}
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from transaction_code_${tableIndex}
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.chenxinfan.stock.domain.dao.TransactionCodeDao" useGeneratedKeys="true">
-    insert into transaction_code_${tableIndex} (transaction_code, sku_id)
-    values (#{transactionCode,jdbcType=VARCHAR}, #{skuId,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.chenxinfan.stock.domain.dao.TransactionCodeDao" useGeneratedKeys="true">
-    insert into transaction_code_${tableIndex}
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="transactionCode != null">
-        transaction_code,
-      </if>
-      <if test="skuId != null">
-        sku_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="transactionCode != null">
-        #{transactionCode,jdbcType=VARCHAR},
-      </if>
-      <if test="skuId != null">
-        #{skuId,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.chenxinfan.stock.domain.dao.TransactionCodeDao">
-    update transaction_code_${tableIndex}
-    <set>
-      <if test="transactionCode != null">
-        transaction_code = #{transactionCode,jdbcType=VARCHAR},
-      </if>
-      <if test="skuId != null">
-        sku_id = #{skuId,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.chenxinfan.stock.domain.dao.TransactionCodeDao">
-    update transaction_code_${tableIndex}
-    set transaction_code = #{transactionCode,jdbcType=VARCHAR},
-      sku_id = #{skuId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    <resultMap id="BaseResultMap" type="cn.chenxinfan.stock.domain.dao.split.TransactionCodeSplit">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="transaction_code" jdbcType="VARCHAR" property="transactionCode"/>
+        <result column="sku_id" jdbcType="VARCHAR" property="skuId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, transaction_code, sku_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from transaction_code_${tableIndex}
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from transaction_code_${tableIndex}
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="cn.chenxinfan.stock.domain.dao.split.TransactionCodeSplit" useGeneratedKeys="true">
+        insert into transaction_code_${tableIndex} (transaction_code, sku_id)
+        values (#{transactionCode,jdbcType=VARCHAR}, #{skuId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="cn.chenxinfan.stock.domain.dao.split.TransactionCodeSplit" useGeneratedKeys="true">
+        insert into transaction_code_${tableIndex}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="transactionCode != null">
+                transaction_code,
+            </if>
+            <if test="skuId != null">
+                sku_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="transactionCode != null">
+                #{transactionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="skuId != null">
+                #{skuId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.chenxinfan.stock.domain.dao.split.TransactionCodeSplit">
+        update transaction_code_${tableIndex}
+        <set>
+            <if test="transactionCode != null">
+                transaction_code = #{transactionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="skuId != null">
+                sku_id = #{skuId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.chenxinfan.stock.domain.dao.split.TransactionCodeSplit">
+        update transaction_code_${tableIndex}
+        set transaction_code = #{transactionCode,jdbcType=VARCHAR},
+            sku_id           = #{skuId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

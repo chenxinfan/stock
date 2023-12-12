@@ -1,7 +1,7 @@
 package cn.chenxinfan.stock.manager.impl;
 
 import cn.chenxinfan.stock.domain.bo.StockBo;
-import cn.chenxinfan.stock.domain.dao.TransactionCodeDao;
+import cn.chenxinfan.stock.domain.dao.TransactionCode;
 import cn.chenxinfan.stock.manager.Stock01Manager;
 import cn.chenxinfan.stock.mapper.SkuStock01DaoMapper;
 import cn.chenxinfan.stock.mapper.TransactionCode01DaoMapper;
@@ -30,7 +30,7 @@ public class Stock01ManagerImpl implements Stock01Manager {
     @Transactional
     public void deductStock(StockBo stockBo) {
         //1，扣减库存防重码
-        TransactionCodeDao skuOrder = new TransactionCodeDao();
+        TransactionCode skuOrder = new TransactionCode();
         skuOrder.setTransactionCode(stockBo.getTransactionCode());
         skuOrder.setSkuId(stockBo.getSkuId());
         if (skuOrderMapper.insertSelective(skuOrder) != 1) {

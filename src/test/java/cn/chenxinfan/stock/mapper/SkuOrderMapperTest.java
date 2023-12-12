@@ -1,7 +1,7 @@
 package cn.chenxinfan.stock.mapper;
 
 import cn.chenxinfan.stock.BaseTest;
-import cn.chenxinfan.stock.domain.dao.TransactionCodeDao;
+import cn.chenxinfan.stock.domain.dao.TransactionCode;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,7 +17,7 @@ public class SkuOrderMapperTest extends BaseTest {
 
     @Test
     public void testInsert() {
-        TransactionCodeDao skuOrder = new TransactionCodeDao();
+        TransactionCode skuOrder = new TransactionCode();
         skuOrder.setSkuId("1");
         skuOrder.setTransactionCode("100");
         skuOrderMapper.insert(skuOrder);

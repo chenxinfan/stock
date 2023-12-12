@@ -1,6 +1,9 @@
 package cn.chenxinfan.stock.datasource.annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 用来确定分表的注解
@@ -12,7 +15,7 @@ import java.lang.annotation.*;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-//@Inherited // 就是说如果某个类使用了被@Inherited 修饰的注解，则其子类将自动具有该注解
 public @interface DbSplitKey {
-    String splitKey() default ""; //标记splitkey的名称
+    //标记splitkey的名称
+    String splitKey() default "";
 }

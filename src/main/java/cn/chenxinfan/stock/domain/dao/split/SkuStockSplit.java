@@ -4,11 +4,11 @@ import cn.chenxinfan.stock.datasource.domain.split.BaseSplitDao;
 import lombok.Data;
 
 @Data
-public class TransactionCodeSplitDao extends BaseSplitDao {
+public class SkuStockSplit extends BaseSplitDao {
 
     private Long id;
 
-    private String transactionCode;
-
     private String skuId;
+
+    private Integer stock;
 }

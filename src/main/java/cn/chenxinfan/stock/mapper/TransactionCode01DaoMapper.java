@@ -1,17 +1,17 @@
 package cn.chenxinfan.stock.mapper;
 
-import cn.chenxinfan.stock.domain.dao.TransactionCodeDao;
+import cn.chenxinfan.stock.domain.dao.TransactionCode;
 
 public interface TransactionCode01DaoMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(TransactionCodeDao record);
+    int insert(TransactionCode record);
 
-    int insertSelective(TransactionCodeDao record);
+    int insertSelective(TransactionCode record);
 
-    TransactionCodeDao selectByPrimaryKey(Integer id);
+    TransactionCode selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(TransactionCodeDao record);
+    int updateByPrimaryKeySelective(TransactionCode record);
 
-    int updateByPrimaryKey(TransactionCodeDao record);
+    int updateByPrimaryKey(TransactionCode record);
 }

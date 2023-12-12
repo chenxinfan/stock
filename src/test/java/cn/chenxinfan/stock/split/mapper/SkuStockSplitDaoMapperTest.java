@@ -1,7 +1,8 @@
 package cn.chenxinfan.stock.split.mapper;
 
 import cn.chenxinfan.stock.BaseTest;
-import cn.chenxinfan.stock.domain.dao.split.SkuStockSplitDao;
+import cn.chenxinfan.stock.domain.dao.split.SkuStockSplit;
+import cn.chenxinfan.stock.split.dao.SkuStockSplitDao;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,16 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SkuStockSplitDaoMapperTest extends BaseTest {
 
     @Autowired
-    private SkuStockSplitDaoMapper skuStockSplitDaoMapper;
+    private SkuStockSplitDao skuStockSplitDaoMapper;
 
     @Test
-    public void insertTest(){
-        SkuStockSplitDao skuStockSplitDao = new SkuStockSplitDao();
-        skuStockSplitDao.setSkuId("11");
+    public void insertTest() {
+        SkuStockSplit skuStockSplitDao = new SkuStockSplit();
+        skuStockSplitDao.setSkuId("14");
         skuStockSplitDao.setStock(100);
         skuStockSplitDaoMapper.insert(skuStockSplitDao);
-
-//        skuStockSplitDaoMapper.deductStock("111", 100);
     }
 
 }

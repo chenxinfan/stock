@@ -1,70 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.chenxinfan.stock.split.mapper.SkuStockSplitDaoMapper">
-  <resultMap id="BaseResultMap" type="cn.chenxinfan.stock.domain.dao.split.SkuStockSplitDao">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="sku_id" jdbcType="VARCHAR" property="skuId" />
-    <result column="stock" jdbcType="INTEGER" property="stock" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, sku_id, stock
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from sku_stock_${tableIndex}
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from sku_stock_${tableIndex}
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.chenxinfan.stock.domain.dao.SkuStockDao" useGeneratedKeys="true">
-    insert into sku_stock_${tableIndex} (sku_id, stock)
-    values (#{skuId,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.chenxinfan.stock.domain.dao.SkuStockDao" useGeneratedKeys="true">
-    insert into sku_stock_${tableIndex}
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="skuId != null">
-        sku_id,
-      </if>
-      <if test="stock != null">
-        stock,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="skuId != null">
-        #{skuId,jdbcType=VARCHAR},
-      </if>
-      <if test="stock != null">
-        #{stock,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.chenxinfan.stock.domain.dao.SkuStockDao">
-    update sku_stock_${tableIndex}
-    <set>
-      <if test="skuId != null">
-        sku_id = #{skuId,jdbcType=VARCHAR},
-      </if>
-      <if test="stock != null">
-        stock = #{stock,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.chenxinfan.stock.domain.dao.SkuStockDao">
-    update sku_stock_${tableIndex}
-    set sku_id = #{skuId,jdbcType=VARCHAR},
-      stock = #{stock,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    <resultMap id="BaseResultMap" type="cn.chenxinfan.stock.domain.dao.split.SkuStockSplit">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sku_id" jdbcType="VARCHAR" property="skuId"/>
+        <result column="stock" jdbcType="INTEGER" property="stock"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, sku_id, stock
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sku_stock_${tableIndex}
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sku_stock_${tableIndex}
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="cn.chenxinfan.stock.domain.dao.split.SkuStockSplit" useGeneratedKeys="true">
+        insert into sku_stock_${tableIndex} (sku_id, stock)
+        values (#{skuId,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="cn.chenxinfan.stock.domain.dao.split.SkuStockSplit" useGeneratedKeys="true">
+        insert into sku_stock_${tableIndex}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="skuId != null">
+                sku_id,
+            </if>
+            <if test="stock != null">
+                stock,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="skuId != null">
+                #{skuId,jdbcType=VARCHAR},
+            </if>
+            <if test="stock != null">
+                #{stock,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.chenxinfan.stock.domain.dao.split.SkuStockSplit">
+        update sku_stock_${tableIndex}
+        <set>
+            <if test="skuId != null">
+                sku_id = #{skuId,jdbcType=VARCHAR},
+            </if>
+            <if test="stock != null">
+                stock = #{stock,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.chenxinfan.stock.domain.dao.split.SkuStockSplit">
+        update sku_stock_${tableIndex}
+        set sku_id = #{skuId,jdbcType=VARCHAR},
+            stock  = #{stock,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 
-  <update id="deductStock">
-    update sku_stock_${tableIndex}
-    set stock = stock - #{deductStockNum}
-    where stock >= #{deductStockNum}
-      and sku_id = #{skuId}
-  </update>
+    <update id="deductStock">
+        update sku_stock_${tableIndex}
+        set stock = stock - #{deductStockNum}
+        where stock >= #{deductStockNum}
+          and sku_id = #{skuId}
+    </update>
 </mapper>

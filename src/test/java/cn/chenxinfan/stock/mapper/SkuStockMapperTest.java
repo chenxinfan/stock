@@ -1,7 +1,7 @@
 package cn.chenxinfan.stock.mapper;
 
 import cn.chenxinfan.stock.BaseTest;
-import cn.chenxinfan.stock.domain.dao.SkuStockDao;
+import cn.chenxinfan.stock.domain.dao.SkuStock;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,7 +17,7 @@ public class SkuStockMapperTest extends BaseTest {
 
     @Test
     public void testInsert() {
-        SkuStockDao skuStock = new SkuStockDao();
+        SkuStock skuStock = new SkuStock();
         skuStock.setSkuId("2");
         skuStock.setStock(100);
         skuStockMapper.insert(skuStock);

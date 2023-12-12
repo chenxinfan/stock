@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.chenxinfan.stock.mapper.SkuStock01DaoMapper">
-  <resultMap id="BaseResultMap" type="cn.chenxinfan.stock.domain.dao.SkuStockDao">
+  <resultMap id="BaseResultMap" type="cn.chenxinfan.stock.domain.dao.SkuStock">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="sku_id" jdbcType="VARCHAR" property="skuId" />
     <result column="stock" jdbcType="INTEGER" property="stock" />
@@ -19,11 +19,11 @@
     delete from sku_stock_01
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.chenxinfan.stock.domain.dao.SkuStockDao" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.chenxinfan.stock.domain.dao.SkuStock" useGeneratedKeys="true">
     insert into sku_stock_01 (sku_id, stock)
     values (#{skuId,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.chenxinfan.stock.domain.dao.SkuStockDao" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.chenxinfan.stock.domain.dao.SkuStock" useGeneratedKeys="true">
     insert into sku_stock_01
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="skuId != null">
@@ -42,7 +42,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.chenxinfan.stock.domain.dao.SkuStockDao">
+  <update id="updateByPrimaryKeySelective" parameterType="cn.chenxinfan.stock.domain.dao.SkuStock">
     update sku_stock_01
     <set>
       <if test="skuId != null">
@@ -54,7 +54,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.chenxinfan.stock.domain.dao.SkuStockDao">
+  <update id="updateByPrimaryKey" parameterType="cn.chenxinfan.stock.domain.dao.SkuStock">
     update sku_stock_01
     set sku_id = #{skuId,jdbcType=VARCHAR},
       stock = #{stock,jdbcType=INTEGER}
