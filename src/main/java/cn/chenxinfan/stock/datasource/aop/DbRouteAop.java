@@ -1,7 +1,7 @@
 package cn.chenxinfan.stock.datasource.aop;
 
 import cn.chenxinfan.stock.datasource.annotation.DbSplitKey;
-import cn.chenxinfan.stock.datasource.domain.contants.DataSourceContants;
+import cn.chenxinfan.stock.datasource.config.DataSourceConfig;
 import cn.chenxinfan.stock.datasource.util.DbTableIndexUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +12,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -27,6 +28,9 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 public class DbRouteAop {
+
+    @Autowired
+    private DataSourceConfig dataSourceConfig;
 
     @Pointcut("@annotation(cn.chenxinfan.stock.datasource.annotation.DbRoute)")
     public void pointcut() {
@@ -64,8 +68,8 @@ public class DbRouteAop {
 
         //分表tableIndex计算
         Integer hashCode = splitKeyValue.toLowerCase().hashCode() & Integer.MAX_VALUE;
-        Integer tableIndex = hashCode % DataSourceContants.DATA_SOURCE_TABLE_LENGTH + 1;
-        String tableIndexStr = String.format("%02d", tableIndex);
+        Integer tableIndex = hashCode % dataSourceConfig.getTableNum() + 1;
+        String tableIndexStr = String.format(dataSourceConfig.getTableNameFormat(), tableIndex);
         //放入theahlocal中
         DbTableIndexUtil.setTableIndex(tableIndexStr);
 
@@ -73,7 +77,7 @@ public class DbRouteAop {
             //执行目标方法
             Object proceed = jointPoint.proceed();
         } finally {
-            DbTableIndexUtil.remove();
+            DbTableIndexUtil.removeTableIndex();
         }
     }
 
