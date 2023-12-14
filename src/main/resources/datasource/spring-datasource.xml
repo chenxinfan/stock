@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- todo 了解线程池各种参数含义 -->
+    <bean id="abstractDataSource" abstract="true" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${dataSource.config.driver-class-name}"/>
+        <!-- 基本属性 url、user、password -->
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="10"/>
+        <property name="minIdle" value="10"/>
+        <property name="maxActive" value="10"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="6000"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <property name="validationQuery" value="SELECT 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="false"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+        <property name="filters" value="config"/>
+        <property name="connectionProperties" value="config.decrypt=false"/>
+    </bean>
+
+    <bean id="dataSourceDb11" parent="abstractDataSource">
+        <property name="url" value="${dataSource.db.config.db1.url}"/>
+        <property name="username" value="${dataSource.db.config.db1.username}"/>
+        <property name="password" value="${dataSource.db.config.db1.password}"/>
+        <!-- 数据库名称 -->
+        <property name="name" value="db_stock_01"/>
+    </bean>
+
+    <bean id="dataSourceDb22" parent="abstractDataSource">
+        <property name="url" value="${dataSource.db.config.db2.url}"/>
+        <property name="username" value="${dataSource.db.config.db2.username}"/>
+        <property name="password" value="${dataSource.db.config.db2.password}"/>
+        <!-- 数据库名称 -->
+        <property name="name" value="db_stock_02"/>
+    </bean>
+
+    <!-- 数据相关配置 -->
+    <bean id="dataSourceConfig" class="cn.chenxinfan.stock.datasource.config.DataSourceConfig">
+        <property name="dbNum" value="${dataSource.config.dbNum}"/>
+        <property name="dbNameprefix" value="${dataSource.config.dbNameprefix}"/>
+        <property name="dbNameFormat" value="${dataSource.config.dbNameFormat}"/>
+        <property name="tableNum" value="${dataSource.config.tableNum}"/>
+        <property name="tableNameFormat" value="${dataSource.config.tableNameFormat}"/>
+    </bean>
+
+    <!-- 多数据源配置 -->
+    <bean id="dataSource" class="cn.chenxinfan.stock.datasource.DynamicDataSource">
+        <property name="dataSourceConfig" ref="dataSourceConfig"/>
+        <property name="defaultTargetDataSource" ref="dataSourceDb11"/>
+        <property name="targetDataSources">
+            <map>
+                <entry key="db_stock_01" value-ref="dataSourceDb11"/>
+                <entry key="db_stock_02" value-ref="dataSourceDb22"/>
+            </map>
+        </property>
+    </bean>
+</beans>
+

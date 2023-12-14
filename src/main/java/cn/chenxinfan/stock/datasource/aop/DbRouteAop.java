@@ -66,9 +66,14 @@ public class DbRouteAop {
 
         log.info("DbRouteAop splitKeyValue:{}", splitKeyValue);
 
-        //分表tableIndex计算
         Integer hashCode = splitKeyValue.toLowerCase().hashCode() & Integer.MAX_VALUE;
-        Integer tableIndex = hashCode % dataSourceConfig.getTableNum() + 1;
+        //todo 分库dbIndex计算
+        Integer dbIndex = hashCode % Integer.valueOf(dataSourceConfig.getDbNum()) + 1;
+        String dbIndexStr = String.format(dataSourceConfig.getDbNameFormat(), dbIndex);
+        DbTableIndexUtil.setDbIndex(dbIndexStr);
+
+        //分表tableIndex计算
+        Integer tableIndex = hashCode % Integer.valueOf(dataSourceConfig.getTableNum()) + 1;
         String tableIndexStr = String.format(dataSourceConfig.getTableNameFormat(), tableIndex);
         //放入theahlocal中
         DbTableIndexUtil.setTableIndex(tableIndexStr);
