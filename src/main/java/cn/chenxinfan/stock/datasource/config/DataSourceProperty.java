@@ -10,12 +10,12 @@ import lombok.Data;
  * @date 2023/12/13 22:18
  */
 @Data
-public class DataSourceConfig {
+public class DataSourceProperty {
 
     /**
-     * todo 数据库个数
+     * 数据库个数
      */
-    private String dbNum;
+    private Integer dbNum;
 
     /**
      * 库名前缀
@@ -28,9 +28,9 @@ public class DataSourceConfig {
     private String dbNameFormat;
 
     /**
-     * todo 表的个数
+     * 表的个数
      */
-    private String tableNum;
+    private Integer tableNum;
 
     /**
      * 分表表名格式

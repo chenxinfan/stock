@@ -3,59 +3,77 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- todo 了解线程池各种参数含义 -->
+    <!-- 配置druid相关参数 -->
     <bean id="abstractDataSource" abstract="true" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="driverClassName" value="${dataSource.config.driver-class-name}"/>
-        <!-- 基本属性 url、user、password -->
-        <!-- 配置初始化大小、最小、最大 -->
-        <property name="initialSize" value="10"/>
-        <property name="minIdle" value="10"/>
-        <property name="maxActive" value="10"/>
-        <!-- 配置获取连接等待超时的时间 -->
+        <property name="driverClassName" value="${datasource.config.driver-class-name}"/>
+        <!-- 连接池初始化数量 -->
+        <property name="initialSize" value="2"/>
+        <!-- 最小连接池数量 -->
+        <property name="minIdle" value="2"/>
+        <!-- 最大连接池数量 -->
+        <property name="maxActive" value="15"/>
+        <!-- 获取连接时最大等待时间，单位毫秒。配置了maxWait之后，缺少启动公平锁，需手动配置为非公平锁-->
         <property name="maxWait" value="6000"/>
         <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
         <property name="timeBetweenEvictionRunsMillis" value="60000"/>
         <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
         <property name="minEvictableIdleTimeMillis" value="300000"/>
-        <property name="validationQuery" value="SELECT 1"/>
+        <property name="validationQuery" value="SELECT 'x'"/>
+        <!-- 建议配置为true，不影响性能，并且保证安全性。
+        申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，
+        执行validationQuery检测连接是否有效。 -->
         <property name="testWhileIdle" value="true"/>
+        <!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
         <property name="testOnBorrow" value="false"/>
+        <!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
         <property name="testOnReturn" value="false"/>
-        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <!-- 是否缓存poolPreparedStatements，也就是PSCache，PSCache对支持游标的数据库性能提升巨大，比如说oracle，在mysql下建议关闭-->
         <property name="poolPreparedStatements" value="false"/>
-        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
-        <property name="filters" value="config"/>
-        <property name="connectionProperties" value="config.decrypt=false"/>
+        <!-- 要启动PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true-->
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="-1"/>
+        <!-- 配置监控统计拦截filters -->
+        <property name="proxyFilters">
+            <list>
+                <bean class="com.alibaba.druid.filter.stat.StatFilter">
+                    <property name="slowSqlMillis" value="100"/>
+                    <property name="logSlowSql" value="true"/>
+                </bean>
+            </list>
+        </property>
+        <!-- 配置maxWait druid默认使用公平锁，手动设置使用非公平锁 -->
+        <property name="useUnfairLock" value="true"/>
+        <!-- 可以看到被关闭连接的具体堆栈信息，方便查看连接泄露 -->
+        <property name="removeAbandoned" value="true"/>
     </bean>
 
     <bean id="dataSourceDb11" parent="abstractDataSource">
-        <property name="url" value="${dataSource.db.config.db1.url}"/>
-        <property name="username" value="${dataSource.db.config.db1.username}"/>
-        <property name="password" value="${dataSource.db.config.db1.password}"/>
+        <property name="url" value="${datasource.db.config.db1.url}"/>
+        <property name="username" value="${datasource.db.config.db1.username}"/>
+        <property name="password" value="${datasource.db.config.db1.password}"/>
         <!-- 数据库名称 -->
         <property name="name" value="db_stock_01"/>
     </bean>
 
     <bean id="dataSourceDb22" parent="abstractDataSource">
-        <property name="url" value="${dataSource.db.config.db2.url}"/>
-        <property name="username" value="${dataSource.db.config.db2.username}"/>
-        <property name="password" value="${dataSource.db.config.db2.password}"/>
+        <property name="url" value="${datasource.db.config.db2.url}"/>
+        <property name="username" value="${datasource.db.config.db2.username}"/>
+        <property name="password" value="${datasource.db.config.db2.password}"/>
         <!-- 数据库名称 -->
         <property name="name" value="db_stock_02"/>
     </bean>
 
     <!-- 数据相关配置 -->
-    <bean id="dataSourceConfig" class="cn.chenxinfan.stock.datasource.config.DataSourceConfig">
-        <property name="dbNum" value="${dataSource.config.dbNum}"/>
-        <property name="dbNameprefix" value="${dataSource.config.dbNameprefix}"/>
-        <property name="dbNameFormat" value="${dataSource.config.dbNameFormat}"/>
-        <property name="tableNum" value="${dataSource.config.tableNum}"/>
-        <property name="tableNameFormat" value="${dataSource.config.tableNameFormat}"/>
+    <bean id="dataSourceProperty" class="cn.chenxinfan.stock.datasource.config.DataSourceProperty">
+        <property name="dbNum" value="${datasource.config.dbNum}"/>
+        <property name="dbNameprefix" value="${datasource.config.dbNameprefix}"/>
+        <property name="dbNameFormat" value="${datasource.config.dbNameFormat}"/>
+        <property name="tableNum" value="${datasource.config.tableNum}"/>
+        <property name="tableNameFormat" value="${datasource.config.tableNameFormat}"/>
     </bean>
 
     <!-- 多数据源配置 -->
-    <bean id="dataSource" class="cn.chenxinfan.stock.datasource.DynamicDataSource">
-        <property name="dataSourceConfig" ref="dataSourceConfig"/>
+    <bean id="dynamicDataSource" class="cn.chenxinfan.stock.datasource.DynamicDataSource">
+        <property name="dataSourceConfig" ref="dataSourceProperty"/>
         <property name="defaultTargetDataSource" ref="dataSourceDb11"/>
         <property name="targetDataSources">
             <map>

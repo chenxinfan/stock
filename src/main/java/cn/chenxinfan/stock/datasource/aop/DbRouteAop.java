@@ -1,7 +1,7 @@
 package cn.chenxinfan.stock.datasource.aop;
 
 import cn.chenxinfan.stock.datasource.annotation.DbSplitKey;
-import cn.chenxinfan.stock.datasource.config.DataSourceConfig;
+import cn.chenxinfan.stock.datasource.config.DataSourceProperty;
 import cn.chenxinfan.stock.datasource.util.DbTableIndexUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
 public class DbRouteAop {
 
     @Autowired
-    private DataSourceConfig dataSourceConfig;
+    private DataSourceProperty dataSourceConfig;
 
     @Pointcut("@annotation(cn.chenxinfan.stock.datasource.annotation.DbRoute)")
     public void pointcut() {
@@ -67,13 +67,13 @@ public class DbRouteAop {
         log.info("DbRouteAop splitKeyValue:{}", splitKeyValue);
 
         Integer hashCode = splitKeyValue.toLowerCase().hashCode() & Integer.MAX_VALUE;
-        //todo 分库dbIndex计算
-        Integer dbIndex = hashCode % Integer.valueOf(dataSourceConfig.getDbNum()) + 1;
+        //分库dbIndex计算
+        Integer dbIndex = hashCode % dataSourceConfig.getDbNum() + 1;
         String dbIndexStr = String.format(dataSourceConfig.getDbNameFormat(), dbIndex);
         DbTableIndexUtil.setDbIndex(dbIndexStr);
 
         //分表tableIndex计算
-        Integer tableIndex = hashCode % Integer.valueOf(dataSourceConfig.getTableNum()) + 1;
+        Integer tableIndex = hashCode % dataSourceConfig.getTableNum() + 1;
         String tableIndexStr = String.format(dataSourceConfig.getTableNameFormat(), tableIndex);
         //放入theahlocal中
         DbTableIndexUtil.setTableIndex(tableIndexStr);

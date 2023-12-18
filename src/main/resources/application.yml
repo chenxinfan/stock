@@ -1,9 +1,0 @@
-#激活方式
-spring:
-  profiles:
-    active: dev
-
-
-
-
-

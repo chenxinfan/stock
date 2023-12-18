@@ -19,7 +19,7 @@ public class SkuStockSplitDaoMapperTest extends BaseTest {
     @Test
     public void insertTest() {
         SkuStockSplit skuStockSplitDao = new SkuStockSplit();
-        skuStockSplitDao.setSkuId("1");
+        skuStockSplitDao.setSkuId("2");
         skuStockSplitDao.setStock(100);
         skuStockSplitDaoMapper.insert(skuStockSplitDao);
     }
